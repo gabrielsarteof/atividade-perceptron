@@ -21,6 +21,7 @@ X, y = datasets.make_blobs(
     center_box=(-5, 5), 
     random_state=42 
 )
+
 print(f"Dataset gerado:")
 print(f"- Amostras: {X.shape[0]}")
 print(f"- Features: {X.shape[1]}")
