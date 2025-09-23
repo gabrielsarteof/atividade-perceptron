@@ -19,10 +19,13 @@ def split_data(X, y, test_size=0.3, random_state=None):
     test_set_size = int(X.shape[0] * test_size)
     test_indices = indices[:test_set_size]
     train_indices = indices[test_set_size:]
+    
+    # Correção da atribuição das variáveis
     X_train = X[train_indices]
     X_test = X[test_indices]
     y_train = y[train_indices]
     y_test = y[test_indices]
+    
     return X_train, X_test, y_train, y_test
 
 class MyStandardScaler:
@@ -81,6 +84,26 @@ print(f"\nAcurácia no conjunto de teste: {accuracy:.2%}")
 print(f"Tempo de Treinamento: {training_time_ms:.2f} ms")
 print("\nMatriz de Confusão:")
 print(confusion_matrix(y_test, y_pred))
+
+# Adicionado: Bloco de Análise Detalhada
+print(f"- Erros finais no treino: {ppn.errors_history[-1]}")
+if 0 in ppn.errors_history:
+    conv_epoch = ppn.errors_history.index(0) + 1
+    print(f"- Convergiu na época: {conv_epoch}")
+else:
+    print("- Não convergiu completamente")
+
+print(f"\nPesos aprendidos:")
+print(f"- w1 (Feature 1): {ppn.weights[0]:.4f}")
+print(f"- w2 (Feature 2): {ppn.weights[1]:.4f}")
+print(f"- bias: {ppn.bias:.4f}")
+
+if ppn.weights[1] != 0:
+    slope = -ppn.weights[0] / ppn.weights[1]
+    intercept = -ppn.bias / ppn.weights[1]
+    print(f"\nEquação da fronteira de decisão:")
+    print(f"x2 = {slope:.2f} * x1 + {intercept:.2f}")
+# Fim do Bloco
 
 # Passo 6: Plotar as regiões de decisão
 print("\nGerando gráficos de resultado...")
