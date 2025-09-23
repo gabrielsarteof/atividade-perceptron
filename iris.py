@@ -20,7 +20,7 @@ def split_data(X, y, test_size=0.3, random_state=None):
     test_indices = indices[:test_set_size]
     train_indices = indices[test_set_size:]
     
-    # AQUI ESTÁ A CORREÇÃO DEFINITIVA DO BUG
+    # Correção da atribuição das variáveis
     X_train = X[train_indices]
     X_test = X[test_indices]
     y_train = y[train_indices]
@@ -79,8 +79,28 @@ y_pred = ppn.predict(X_test_std)
 accuracy = calculate_accuracy(y_test, y_pred)
 print(f"\nAcurácia no conjunto de teste: {accuracy:.2%}")
 print(f"Tempo de Treinamento: {training_time_ms:.2f} ms")
-print("\nMatriz de Confusão:") # Adicionado
-print(confusion_matrix(y_test, y_pred)) # Adicionado
+print("\nMatriz de Confusão:")
+print(confusion_matrix(y_test, y_pred))
+
+# Adicionado: Bloco de Análise Detalhada
+print(f"- Erros finais no treino: {ppn.errors_history[-1]}")
+if 0 in ppn.errors_history:
+    conv_epoch = ppn.errors_history.index(0) + 1
+    print(f"- Convergiu na época: {conv_epoch}")
+else:
+    print("- Não convergiu completamente")
+
+print(f"\nPesos aprendidos:")
+print(f"- w1 ({iris.feature_names[0]}): {ppn.weights[0]:.4f}")
+print(f"- w2 ({iris.feature_names[2]}): {ppn.weights[1]:.4f}")
+print(f"- bias: {ppn.bias:.4f}")
+
+if ppn.weights[1] != 0:
+    slope = -ppn.weights[0] / ppn.weights[1]
+    intercept = -ppn.bias / ppn.weights[1]
+    print(f"\nEquação da fronteira de decisão:")
+    print(f"x2 = {slope:.2f} * x1 + {intercept:.2f}")
+# Fim do Bloco
 
 # Passo 6: Plotar as regiões de decisão
 print("\nGerando gráficos de resultado...")
@@ -97,6 +117,7 @@ axes[1].set_title('Convergência do Treinamento')
 axes[1].set_xlabel('Épocas')
 axes[1].set_ylabel('Número de erros de classificação')
 axes[1].grid(True, alpha=0.3)
+plt.savefig('iris_chart.png', dpi=150, bbox_inches='tight', facecolor='white')
 plt.tight_layout()
 plt.show()
 
