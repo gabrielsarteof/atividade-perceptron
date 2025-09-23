@@ -113,7 +113,11 @@ axes[1].set_title('Convergência do Treinamento (Exemplo)')
 axes[1].set_xlabel('Épocas')
 axes[1].set_ylabel('Número de erros de classificação')
 axes[1].grid(True, alpha=0.3)
+<<<<<<< HEAD
 plt.savefig('ruido_chart.png', dpi=150, bbox_inches='tight', facecolor='white')
+=======
+
+>>>>>>> 9cd4a44d02cbaab03c43523a6a9798c605639dcc
 plt.tight_layout()
 plt.show()
 
